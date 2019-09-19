@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  
+     <properties resource="db.properties">  </properties>
+     
+     <!-- setting 配置 -->
+     
+     <settings>
+     <!-- 设置延迟的全局开关 开启延迟加载 -->
+     <setting name="lazyLoadingEnabled" value="true"/>
+     <!-- 防止升降版本带来的不同 -->
+     <setting name="aggressiveLazyLoading" value="false"/>
+     </settings>
+     
+     <typeAliases>
+     <package name="com.yc.po"></package>
+    
+     </typeAliases>
+     
+    <environments default="dev_mysql">
+  
+    <environment id="dev_mysql">
+      <transactionManager type="JDBC"/>
+      
+      <dataSource type="POOLED">
+     
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>    
+      </dataSource>
+    
+    </environment>   
+    <environment id="dev_oracle">
+      <transactionManager type="JDBC"/>
+      
+      <dataSource type="POOLED">
+     
+        <property name="driver" value="${oracle.driver}"/>
+        <property name="url" value="${oracle.url}"/>
+        <property name="username" value="${oracle.username}"/>
+        <property name="password" value="${oracle.password}"/>    
+      </dataSource>
+    
+    </environment>  
+  </environments>
+<databaseIdProvider type="DB_VENDOR">
+<property name="SQL Server" value="sqlserver"/>
+<property name="DB2" value="db2"/>
+<property name="Oracle" value="oracle"/>
+<property name="MySQL" value="mysql"/>
+</databaseIdProvider>
+  <mappers>
+   <package name="com.yc.dao"></package> <!-- 批量处理 -->
+  </mappers>
+   
+</configuration>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>web_sm</display-name>
+  <context-param>
+  <param-name>contextCofigLocation</param-name>
+  <param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+  <!-- 配置ioc容器加载的监听器 -->
+  <listener>
+  <listener-class>org.springframework.web.context.ContexLoaderListener</listener-class>
+  </listener>
+  
+  <!-- 配置加载配置文件的servlet 无需配置映射 -->
+  <servlet>
+  <servlet-name>loaderServlet</servlet-name>
+  <servlet-class>com.yc.servlet.loaderServlet</servlet-class>
+  
+  <!-- 标记容器是否在启动的时候就加载这个servlet
+  当值为0或者大于0时，表示容器在应用启动时就加载这个servlet
+  当是一个负数时或者没有指定时，则指示容器在该servlet被选择时才加载
+   -->
+   
+   <load-on-startup>1</load-on-startup>
+  </servlet>
+</web-app>

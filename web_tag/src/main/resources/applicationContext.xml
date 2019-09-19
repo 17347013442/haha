@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+      xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util  
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop.xsd
+        ">
+       
+ 		
+  <context:component-scan base-package="com.yc"></context:component-scan>
+  
+  <context:property-placeholder location="classpath:db.properties"/>
+ <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+     <property name="user" value="${username}"></property>
+    <property name="password" value="${password}"></property>
+     <property name="driverClass" value="${driver}"></property>
+     <property name="jdbcUrl" value="${url}"></property>
+ </bean>
+ 
+
+   <!-- 配置事务管理器 -->
+   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+   <property name="dataSource" ref="dataSource"></property>
+   </bean>
+   
+ 
+   <!-- 启动事务注解 -->
+   <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!-- 配置sqlSessionfactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"></property>
+    <!-- 映射文件的地址 -->
+    <property name="mapperLocations" value="classpath:com/yc/dao/*Mapper.xml" ></property>
+    <!-- 使用别名的包 -->
+    <property name="typeAliasesPackage" value="com.yc.po"></property>
+    <!-- 配置属性信息 采用驼峰法 -->
+    <property name="configuration" >
+    <bean class="org.apache.ibatis.session.Configuration">
+    <property name="mapUnderscoreToCamelCase" value="true"></property>
+    </bean>
+    
+    </property>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <!-- 扫描映射接口 的基础包 -->
+    <property name="basePackage" value="com.yc.dao"></property>
+    <!-- sqlsessionFactory 注入 -->
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+    
+    
+</beans>
